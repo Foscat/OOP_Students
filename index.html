@@ -1,0 +1,82 @@
+<html>
+    <body>
+        <div id="buttons"></div>
+        <div id="studentInfo"></div>
+        <div>
+            <input type="text" id="input" />
+            <input type="button" id="add" value="add student">
+        </div>
+    </body>
+
+    <script>
+
+        var nameArray = ["Billy", "Joe", "Sally"];
+        var studentArray = [];
+        
+        function Student(id, name){
+            this.id = id;
+            this.name = name;
+        }
+
+        Student.prototype = {
+            display: function(){
+                var infoDisplay = "<h2>Id: " + this.id  + "</h2><br>" + 
+                    "<h1>Name: " + this.name + "</h1>";
+                    
+                document.getElementById("studentInfo").innerHTML = infoDisplay;
+            }
+        }
+
+        function makeButtons(){
+            document.getElementById("buttons").innerHTML = "";
+            for (let n = 0; n < nameArray.length; n++) {
+                const stuName = nameArray[n];
+                let btn = document.createElement("button");
+                btn.setAttribute("id", n);
+                btn.innerHTML = "Student "+(n+1);
+
+                document.getElementById("buttons").appendChild(btn);
+                
+            }
+        }
+        makeButtons();
+
+        function makeObjects(){
+            studentArray = [];
+            for (let o = 0; o < nameArray.length; o++) {
+                const stu = nameArray[o];
+
+                var newStudent = new Student();
+                newStudent.id = o+1;
+                newStudent.name = stu;
+                
+                studentArray.push(newStudent);
+            }
+            console.log(studentArray);
+        }
+        makeObjects();
+
+        function makeFunctions(){
+            for (let f = 0; f < studentArray.length; f++) {
+                const fun = studentArray[f];
+                document.getElementById(f).addEventListener("click", function(){
+                    fun.display();
+                })
+            }
+        }
+        makeFunctions();
+
+        
+
+        function addStudent(){
+            var newName = document.getElementById("input").value;
+            nameArray.push(newName);
+            makeButtons();
+            makeObjects();
+            makeFunctions();
+        }
+        document.getElementById("add").addEventListener("click", addStudent);
+
+
+    </script>
+</html>
